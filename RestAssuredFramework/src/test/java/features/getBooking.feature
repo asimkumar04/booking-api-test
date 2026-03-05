@@ -1,10 +1,6 @@
 Feature: Validate Booking API
 
  Scenario: Retrieve an existing booking
- Given a valid booking Id is provided
- When user sends a get request with valid booking id
- Then verify booking details is returned with success code for bookingid 1
- 
- 
- 
- 
+    Given a valid booking exists with id 1
+    When I send a GET request
+    Then the response should contain booking details

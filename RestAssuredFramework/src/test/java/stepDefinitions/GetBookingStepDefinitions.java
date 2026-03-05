@@ -3,73 +3,54 @@ package stepDefinitions;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import pojo.Booking;
-import pojo.Login;
 
-import static io.restassured.RestAssured.*;
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import utility.ApiMethod;
+import utility.ApiUtility;
 
 public class GetBookingStepDefinitions {
 	
-	private Response response;
+	private Response getResponse;
 	private static String token;
 	
-	@Given("a valid booking Id is provided")
-	public void valid_authentication_is_provided() {
-	    // Code to fetch token
+	@Given("a valid booking exists with id {int}")
+	public void a_valid_booking_exists_with_id(Integer id) {
+	    // Write code here that turns the phrase above into concrete actions
+		token = ApiUtility.getToken();
 		
 		Map<String, String> headers = new HashMap<>();
-		headers.put("Content-Type", "application/json");
+		headers.put("Cookie", "token="+token);
 		
-		Login login = new Login("admin","password");
+		Map<String, String> params = new HashMap<>();
+		params.put("id", String.valueOf(id));
 		
-		response = ApiMethod.post("/auth/login", login, headers);
+		getResponse = ApiMethod.get("/booking/{id}", headers, params, null);
 
-        response.then().statusCode(200);
+	    
 	}
 
-	@When("user sends a get request with valid booking id")
-	public void user_provides_valid_booking_id() {
+	@When("I send a GET request")
+	public void i_send_a_get_request() {
 	    // Write code here that turns the phrase above into concrete actions
-		
-        token = response.jsonPath().getString("token");
-        System.out.println("Generated Token: " + token);
-
-        assertNotNull(token);
-
+		getResponse.then().statusCode(200);
 	}
 
-	@Then("verify booking details is returned with success code for bookingid {int}")
-	public void verify_correct_details_is_returned(int bookingId) {
+	@Then("the response should contain booking details")
+	public void the_response_should_contain_booking_details() {
 	    // Write code here that turns the phrase above into concrete actions
-		int id = bookingId;
-		
-		Response getResponse = given()
-		        .header("Cookie", "token=" + token)
-		        .pathParam("id", id)
-		    .when()
-		        .get("/booking/{id}");
-
-        getResponse.then().statusCode(200);
-        System.out.println(getResponse.prettyPrint());
-        
         Booking booking = getResponse.as(Booking.class);
         
         assertEquals(booking.getBookingid(), 1);
         assertEquals(booking.getFirstname(), "James");
         assertEquals(booking.getLastname(), "Dean");
         assertEquals(booking.getRoomid(), 1);
-        
-
-        
 	}
+	
 
 }

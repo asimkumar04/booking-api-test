@@ -1,9 +1,5 @@
 package stepDefinitions;
 
-import static io.restassured.RestAssured.given;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,65 +8,63 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
 import pojo.Booking;
-import pojo.Login;
 import utility.ApiMethod;
+import utility.ApiUtility;
 
 public class UpdateBookingStepDefinitions {
 	
 private static String token;
-private Response response;
+private Response putResponse;
+Booking booking = new Booking();
 	
-	@Given("a valid booking is provided")
-	public void valid_authentication_is_provided() {
-	    // Code to fetch token
-		
-		Map<String, String> headers = new HashMap<>();
-		headers.put("Content-Type", "application/json");
-		
-		Login login = new Login("admin","password");
-		
-		response = ApiMethod.post("/auth/login", login, headers);
+@Given("a valid booking is provided with id {int}")
+public void a_valid_booking_is_provided_with_id(Integer id) {
+    // Write code here that turns the phrase above into concrete actions
+	token = ApiUtility.getToken();
+	
+	Map<String, String> headers = new HashMap<>();
+	headers.put("Cookie", "token="+token);
+	
+	Map<String, String> params = new HashMap<>();
+	params.put("id", String.valueOf(id));
+	
+	Response getResponse = ApiMethod.get("/booking/{id}", headers, params, null);
 
-        response.then().statusCode(200);
-	}
+    getResponse.then().statusCode(200);
+}
 
-	@When("user updates request with valid details")
-	public void user_provides_valid_booking_id() {
-	    // Write code here that turns the phrase above into concrete actions
-		
-        token = response.jsonPath().getString("token");
-        System.out.println("Generated Token: " + token);
+@Given("user has updated booking details")
+public void user_has_updated_booking_details() {
+    // Write code here that turns the phrase above into concrete actions
+	
+	booking.setBookingid(1);
+	booking.setFirstname("James");
+	booking.setLastname("Dean");
+	booking.setRoomid(1);
+	booking.setDepositpaid(true);
+}
 
-        assertNotNull(token);
+@When("I send a PUT request with booking id {int}")
+public void i_send_a_put_request_with_booking_id(Integer id) {
+    // Write code here that turns the phrase above into concrete actions
+	
+	Map<String, String> headers = new HashMap<>();
+	headers.put("Cookie", "token="+token);
+	
+	Map<String, String> params = new HashMap<>();
+	params.put("id", String.valueOf(id));
+	
+	putResponse = ApiMethod.put("/booking/{id}", booking, headers, params);
+}
 
-	}
+@Then("the booking is updated and response code is {int}")
+public void the_booking_is_updated_and_response_code_is(Integer successcode) {
+    // Write code here that turns the phrase above into concrete actions
+	
+	assert putResponse.statusCode() == successcode;
+	assert putResponse.jsonPath().get("success") == "true";
+}
 
-	@Then("verify booking details is returned with success code")
-	public void verify_correct_details_is_returned() {
-	    // Write code here that turns the phrase above into concrete actions
-		int id = 1;
-		Booking booking = new Booking();
-		booking.setBookingid(1);
-		booking.setFirstname("James");
-		booking.setLastname("Dean");
-		booking.setRoomid(1);
-		booking.setDepositpaid(true);
-		
-		
-		Response getResponse = given()
-		        .header("Cookie", "token=" + token)
-		        .pathParam("id", id)
-		        .body(booking)
-		    .when()
-		        .put("/booking/{id}");
 
-		assert getResponse.statusCode() == 200;
-
-		String success = getResponse.jsonPath().get("success");
-		assert success == "true";
-        
-
-        
-	}
 
 }

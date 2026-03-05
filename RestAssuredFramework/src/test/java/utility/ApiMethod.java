@@ -18,8 +18,9 @@ public class ApiMethod {
 	        return RestAssured.given()
 	                .contentType("application/json");
 	    }
+	    
 
-	    // ==========================
+		// ==========================
 	    // GET METHOD
 	    // ==========================
 	    public static Response get(String endpoint,
