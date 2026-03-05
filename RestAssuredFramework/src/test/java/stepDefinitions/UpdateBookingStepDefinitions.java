@@ -11,6 +11,7 @@ import pojo.Booking;
 import utility.ApiMethod;
 import utility.ApiUtility;
 
+
 public class UpdateBookingStepDefinitions {
 	
 private static String token;
@@ -20,6 +21,7 @@ Booking booking = new Booking();
 @Given("a valid booking is provided with id {int}")
 public void a_valid_booking_is_provided_with_id(Integer id) {
     // Write code here that turns the phrase above into concrete actions
+	
 	token = ApiUtility.getToken();
 	
 	Map<String, String> headers = new HashMap<>();
@@ -31,6 +33,7 @@ public void a_valid_booking_is_provided_with_id(Integer id) {
 	Response getResponse = ApiMethod.get("/booking/{id}", headers, params, null);
 
     getResponse.then().statusCode(200);
+    Hooks.test.info("GET request sent to Booking API");
 }
 
 @Given("user has updated booking details")
@@ -42,10 +45,11 @@ public void user_has_updated_booking_details() {
 	booking.setLastname("Dean");
 	booking.setRoomid(1);
 	booking.setDepositpaid(true);
+	Hooks.test.info("Booking details exist: ");
 }
 
 @When("I send a PUT request with booking id {int}")
-public void i_send_a_put_request_with_booking_id(Integer id) {
+public void i_send_a_put_request_with_booking_id(int id) {
     // Write code here that turns the phrase above into concrete actions
 	
 	Map<String, String> headers = new HashMap<>();
@@ -55,14 +59,21 @@ public void i_send_a_put_request_with_booking_id(Integer id) {
 	params.put("id", String.valueOf(id));
 	
 	putResponse = ApiMethod.put("/booking/{id}", booking, headers, params);
+	Hooks.test.info("PUT request sent to Booking API");
+	Hooks.test.info("Response: " + putResponse.asString());
 }
 
 @Then("the booking is updated and response code is {int}")
-public void the_booking_is_updated_and_response_code_is(Integer successcode) {
+public void the_booking_is_updated_and_response_code_is(int successcode) {
     // Write code here that turns the phrase above into concrete actions
-	
-	assert putResponse.statusCode() == successcode;
+	try {
+	putResponse.then().assertThat().statusCode(successcode);
 	assert putResponse.jsonPath().get("success") == "true";
+	Hooks.test.pass("Booking details is successfully updated");
+	}catch(AssertionError e) {
+		Hooks.test.fail("Booking deletion failed: " + e.getMessage());
+        throw e;  
+    }
 }
 
 

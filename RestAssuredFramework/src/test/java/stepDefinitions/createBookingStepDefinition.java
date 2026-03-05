@@ -10,10 +10,10 @@ import pojo.BookingDates;
 
 import utility.ApiMethod;
 
+
 import static org.hamcrest.Matchers.*;
 
 public class createBookingStepDefinition {
-	
 	
 	private Response response;
 	Booking booking = new Booking();
@@ -22,6 +22,7 @@ public class createBookingStepDefinition {
 	@Given("I have valid booking details")
 	public void i_have_valid_booking_details() {
 	    // Write code here that turns the phrase above into concrete actions
+		
 		booking.setRoomid(14);
 		booking.setFirstname("John");
 		booking.setLastname("Don");
@@ -31,25 +32,31 @@ public class createBookingStepDefinition {
 		booking.setBookingdates(bookingdates);
 		booking.setEmail("john.don@email.com");
 		booking.setPhone("12345678901");
-		
+		Hooks.test.info("Booking details prepared: " + booking.getFirstname() + " " + booking.getLastname());
 	}
 
 	@When("I send a POST request to bookking API")
 	public void i_send_a_post_request_to_bookking_api() {
 	    // Write code here that turns the phrase above into concrete actions
 	     
-			
 		 response = ApiMethod.createBooking(booking);
+		 Hooks.test.info("POST request sent to Booking API");
+	     Hooks.test.info("Response: " + response.asString());
 			   
 	  }
 
 	@Then("the response should contain booking id with status code {int}")
 	public void the_response_should_contain_booking_id_with_status_code(Integer code) {
 	    // Write code here that turns the phrase above into concrete actions
-		//System.out.println(response.prettyPrint());
+		try {
 		response.then()
-        .statusCode(200)
-        .body("bookingid", notNullValue());
+              .statusCode(200)
+              .body("bookingid", notNullValue());
+		Hooks.test.pass("Booking created successfully with ID: " + response.jsonPath().getInt("bookingid"));
+		}catch(AssertionError e) {
+			Hooks.test.fail("Booking creation failed: " + e.getMessage());
+            throw e;  
+        }
 	}
 
 
