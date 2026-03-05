@@ -18,33 +18,6 @@ The framework follows **Behavior Driven Development (BDD)** principles to make t
 
 ---
 
-## Project Structure
-
-```
-hotel-booking-api-framework
-│
-├── src/test/java
-│   ├── stepdefinitions
-│   │   └── BookingSteps.java
-│   │
-│   ├── runners
-│   │   └── TestRunner.java
-│   │
-│   ├── utils
-│   │   └── AuthUtil.java
-│   │
-│   └── models
-│       └── Booking.java
-│
-├── src/test/resources
-│   └── features
-│       └── booking.feature
-│
-├── pom.xml
-└── README.md
-```
-
----
 
 ## Features Covered
 
@@ -53,6 +26,7 @@ The framework automates the following **Hotel Booking API operations**:
 * Create Booking
 * Get Booking Details
 * Update Booking
+* Update Partial Booking
 * Delete Booking
 * Authentication Token Generation
 
