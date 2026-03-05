@@ -3,11 +3,17 @@ package utility;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import pojo.Booking;
 
+import static io.restassured.RestAssured.given;
+
+import java.util.HashMap;
 import java.util.Map;
 
 public class ApiMethod {
+	
 
+	Booking booking = new Booking();
 	
 	   static {
 		   RestAssured.baseURI = "https://automationintesting.online/api";
@@ -98,6 +104,20 @@ public class ApiMethod {
 	            request.pathParams(pathParams);
 
 	        return request.delete(endpoint);
+	    }
+	    
+	    //Create Booking Method
+	    
+	    public static Response createBooking(Booking booking) {
+
+	        Response response = given()
+	                .header("Content-Type", "application/json")
+	                .header("Accept", "application/json")
+	                .body(booking)
+	            .when()
+	                .post("/booking");
+
+	        return response;
 	    }
 	
 

@@ -8,6 +8,8 @@ public class Booking {
 	private String lastname ;
 	private boolean depositpaid;
 	private BookingDates bookingdates;
+	private String email;
+	private String phone;
 	
 	public int getBookingid() {
 		return bookingid;
@@ -39,13 +41,26 @@ public class Booking {
 	public void setDepositpaid(boolean depositpaid) {
 		this.depositpaid = depositpaid;
 	}
-	public BookingDates getBookingdates() {
-		return bookingdates;
-	}
-	public void setBookingdates(BookingDates bookingdates) {
-		this.bookingdates = bookingdates;
-	}
+
+    public BookingDates getBookingdates() {
+        return bookingdates;
+    }
+
+    public void setBookingdates(BookingDates bookingdates) {
+        this.bookingdates = bookingdates;
+    }
 	
-	
+    public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 
 }
