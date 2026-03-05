@@ -7,8 +7,8 @@ import pojo.Booking;
 
 import static io.restassured.RestAssured.given;
 
-import java.util.HashMap;
 import java.util.Map;
+
 
 public class ApiMethod {
 	
@@ -16,7 +16,7 @@ public class ApiMethod {
 	Booking booking = new Booking();
 	
 	   static {
-		   RestAssured.baseURI = "https://automationintesting.online/api";
+		   RestAssured.baseURI = ConfigReader.getProperty("base.url");
 	   }
 
 	    // Base Request Specification
