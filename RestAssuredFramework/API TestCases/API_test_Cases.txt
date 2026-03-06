@@ -1,0 +1,85 @@
+
+	Get booking id	
+	    Validate response when Valid id in input	200	
+		Validate response when unauthorizes	status 401 - no token -	
+		Validate response when invalid Booking Id	status 404 - not found	
+		Validate response when invalid token	status 403 - invalid token - forbidden	
+		Validate response on providing alphanumeric booking id	404	
+		Validate error message on providing null booking id	404	
+		Validate response on providing invalid booking id	error": "Failed to fetch booking: 404"	
+		Validate response when no id in param	"error": "Room ID is required"	
+				
+				
+				
+	Put	Booking Id
+	    Validate response when valid input	Success: true	
+		validate status 200		
+		Validate response when invalid id in param (20)	"error": "Failed to update booking"	
+		Validate response when booking id null	"error": "Failed to update booking"	
+		Validate response when ststus 405 remove id	405 method not allowed	
+		Validate response when alphanumeric id	"error": "Failed to update booking"	
+		Validate response when invalid token	403	
+		Validate response when expired token	403	
+		Validate response when no token	401	
+		Validate response when  room id alphanumeric	400	
+				
+		Validate response when body without room id field: mandatory	400. must be greater than 1	
+		Validate response when room id 0	400. must be greater than 1	
+		Validate response when first name blank	"400, Firstname should not be blank"",
+        ""size must be between 3 and 18"",
+        ""must be greater than or equal to 1"""	
+		fValidate response when irst name alphanumeric	200	success
+		Validate response when last name alphanumeric	200	success
+		Validate response when deposit paid true/false	200	
+		Validate response when checkin date invalid format	400	
+		Validate response when check out date less than check in	409 conflict	
+		Validate response when same date check in out	409	
+		Validate response when invalid email format	400	
+		Validate response when phone number less than 11	400	
+		Validate response when phone number more than 21	400	
+		Validate response when alphanumeri phone number	200	
+		Validate response when after put check get	same response	
+				
+	Create Booking Id	
+	    Validate response when Valid id in input	200	
+		Validate response valid input	200	
+		Validate response when unauthorizes	status 401 - no token - unauthorizes	
+		Validate response when invalid Booking Id	status 404 - not found	
+		Validate response on providing alphanumeric id	404	
+		Validate error message on providing null id	404	
+		Validate response on providing invalid id	error": "Failed to fetch booking: 404"	
+		Validate response when no id in param	"error": "Room ID is required"	
+		Validate response when valid input	Success: true	
+		validate status 200		
+		Validate response when invalid id in param (20)	"error": "Failed to update booking"	
+		Validate response when booking id null	"error": "Failed to update booking"	
+		Validate response when remove id	405 method not allowed	
+		Validate response when alphanumeric id	"error": "Failed to update booking"	
+		Validate response when invalid token	403	
+		Validate response when expired token	403	
+		Validate response when no token	401	
+		Validate response when  room id alphanumeric	400	
+				
+		Validate response when body without room id field: mandatory	400. must be greater than 1	
+		room id 0	400. must be greater than 1	
+		Validate response when first name blank	"400, Firstname should not be blank"",
+        ""size must be between 3 and 18"",
+        ""must be greater than or equal to 1"""	
+		fValidate response when irst name alphanumeric	200	
+		Validate response when last name alphanumeric	200	
+		Validate response when deposit paid true/false	200	
+		Validate response when checkin date invalid format	400	
+		Validate response when check out date less than check in	409 conflict	
+		Validate response when same date check in out	409	
+		Validate response when invalid email format	400	
+		Validate response when phone number less than 11	400	
+		Validate response when phone number more than 21	400	
+		Validate response when alphanumeri phone number	200	
+		Validate response when after put check get	same response	
+				
+	Delete Booking	
+	    Validate response when valid booking Id	200	
+		Validate response when invalid booking Id	500	
+		Validate response when empty booking id	500	
+		Validate response when alphanumeric booking idab	500	
+		Validate response when invalid token	500	
