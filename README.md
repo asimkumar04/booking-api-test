@@ -15,6 +15,7 @@ The framework follows **Behavior Driven Development (BDD)** principles to make t
 * JUnit / TestNG
 * Git
 * Eclipse IDE
+* Extent Report
 
 ---
 
@@ -116,7 +117,7 @@ Asim Kumar
 ## Future Improvements
 
 * Add API schema validation
-* Integrate reporting (Allure / Extent Reports)
+* Integrate reporting (Allure)
 * Add CI/CD integration (GitHub Actions / Jenkins)
 * Add environment configuration support
 
